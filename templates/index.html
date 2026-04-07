@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovBank — Built for people who move fast</title>
+  <meta name="description"
+    content="NovBank — The banking account built for people who move fast. Open an account in 60 seconds." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fafaf9;
+      color: #1a1a18;
+      min-height: 100vh;
+    }
+
+    /* ── Mesh gradient background ── */
+    .mesh-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #fafaf9;
+    }
+
+    .mesh-bg::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+    }
+
+    .mesh-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -5%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(250, 250, 249, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 17px;
+      color: #1a1a18;
+      letter-spacing: -0.3px;
+    }
+
+    .trust-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #059669;
+    }
+
+    .trust-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.4
+      }
+    }
+
+    /* ── Main layout ── */
+    .page-wrap {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 0;
+      padding-top: 64px;
+    }
+
+    /* ── Left: Hero ── */
+    .hero-panel {
+      padding: 80px 64px 64px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tag-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #10b981;
+      margin-bottom: 28px;
+    }
+
+    .tag-line span {
+      width: 20px;
+      height: 1px;
+      background: #10b981;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: #0d0d0b;
+      margin: 0 0 24px 0;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: #10b981;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 420px;
+      margin-bottom: 48px;
+      font-weight: 400;
+    }
+
+    /* ── Feature list ── */
+    .feature-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .fi-green {
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .fi-indigo {
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .fi-amber {
+      background: rgba(245, 158, 11, 0.1);
+    }
+
+    .feature-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a18;
+      margin-bottom: 2px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+
+    /* ── Stat strip ── */
+    .stat-strip {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0d0d0b;
+      letter-spacing: -1px;
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: #9ca3af;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ── Right: Auth panel ── */
+    .auth-panel {
+      background: #ffffff;
+      border-left: 1px solid rgba(0, 0, 0, 0.07);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 40px;
+      min-height: calc(100vh - 64px);
+    }
+
+    .auth-header {
+      margin-bottom: 32px;
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0d0d0b;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .auth-sub {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    /* ── Tabs ── */
+    .tab-bar {
+      display: flex;
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 9px 0;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s;
+      background: transparent;
+      color: #9ca3af;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: #0d0d0b;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ── Form elements ── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      letter-spacing: 0.01em;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid #e5e7eb;
+      background: #ffffff;
+      color: #0d0d0b;
+      transition: all 0.15s;
+      outline: none;
+    }
+
+    .field-input:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+    }
+
+    .field-input::placeholder {
+      color: #d1d5db;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s;
+      background: #0d0d0b;
+      color: #ffffff;
+      margin-top: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .btn-main:hover {
+      background: #1f2937;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .btn-main:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Alert ── */
+    .alert-box {
+      display: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .alert-error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #f3f4f6;
+      margin: 20px 0;
+    }
+
+    /* ── Security note ── */
+    .security-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+    }
+
+    .security-note svg {
+      flex-shrink: 0;
+    }
+
+    .security-note span {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+
+    .form-hidden {
+      display: none;
+    }
+
+    .fade-up {
+      animation: fadeUp 0.22s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mesh background -->
+  <div class="mesh-bg"></div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="logo-mark">N</div>
+      <span class="logo-text">NovBank</span>
+    </div>
+    <div class="trust-pill">
+      <span class="trust-dot"></span>
+      All systems operational
+    </div>
+  </header>
+
+  <!-- Page -->
+  <div class="page-wrap">
+
+    <!-- Hero -->
+    <section class="hero-panel">
+      <div class="tag-line"><span></span> Personal Banking</div>
+
+      <h1>Banking that<br />actually <em>works</em><br />for you.</h1>
+
+      <p class="hero-sub">
+        Deposit, withdraw, and transfer funds instantly. Your balance updates in real time — no lag, no confusion.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon fi-green">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#10b981" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+          </div>
+          <div>
+            <div class="feature-label">Instant transfers</div>
+            <div class="feature-desc">Send money to any NovBank account in seconds.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon fi-indigo">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#6366f1" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <div>
+            <div class="feature-label">Full transaction history</div>
+            <div class="feature-desc">Every deposit, withdrawal, and transfer — logged.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon fi-amber">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#f59e0b" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <div>
+            <div class="feature-label">Session-secured access</div>
+            <div class="feature-desc">Authenticated sessions keep your account private.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-strip">
+        <div>
+          <div class="stat-num">60s</div>
+          <div class="stat-lbl">Account creation</div>
+        </div>
+        <div>
+          <div class="stat-num">₹0</div>
+          <div class="stat-lbl">Opening balance needed</div>
+        </div>
+        <div>
+          <div class="stat-num">8-digit</div>
+          <div class="stat-lbl">Auto-assigned account no.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Auth -->
+    <aside class="auth-panel">
+      <div class="auth-header">
+        <div class="auth-title" id="auth-title">Welcome back</div>
+        <div class="auth-sub" id="auth-sub">Sign in to your NovBank account</div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+        <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Open Account</button>
+      </div>
+
+      <!-- Alert -->
+      <div class="alert-box" id="alert"></div>
+
+      <!-- Sign In Form -->
+      <form id="form-signin" onsubmit="handleSignin(event)">
+        <div class="field-group">
+          <label class="field-label">Username</label>
+          <input class="field-input" id="si-username" type="text" placeholder="your_username" autocomplete="username"
+            required />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <input class="field-input" id="si-password" type="password" placeholder="••••••••"
+            autocomplete="current-password" required />
+        </div>
+        <button class="btn-main" type="submit" id="btn-signin">Sign In</button>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="form-signup" class="form-hidden" onsubmit="handleSignup(event)">
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Username</label>
+            <input class="field-input" id="su-username" type="text" placeholder="choose_one" required />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <input class="field-input" id="su-password" type="password" placeholder="••••••••" required />
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Full Name</label>
+          <input class="field-input" id="su-name" type="text" placeholder="Raj Sharma" required />
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Age</label>
+            <input class="field-input" id="su-age" type="number" placeholder="25" min="18" required />
+          </div>
+          <div class="field-group">
+            <label class="field-label">City</label>
+            <input class="field-input" id="su-city" type="text" placeholder="Mumbai" required />
+          </div>
+        </div>
+        <button class="btn-main" type="submit" id="btn-signup">Open Account — Free</button>
+      </form>
+
+      <div class="divider"></div>
+
+      <!-- Security note -->
+      <div class="security-note">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#9ca3af" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <span>Your session is encrypted. NovBank never shares your data with third parties.</span>
+      </div>
+    </aside>
+
+  </div><!-- /page-wrap -->
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    // Override switchTab to update header text too
+    const _origSwitch = switchTab;
+    window.switchTab = function (tab) {
+      _origSwitch(tab);
+      if (tab === 'signin') {
+        document.getElementById('auth-title').textContent = 'Welcome back';
+        document.getElementById('auth-sub').textContent = 'Sign in to your NovBank account';
+      } else {
+        document.getElementById('auth-title').textContent = 'Open your account';
+        document.getElementById('auth-sub').textContent = 'Takes less than 60 seconds';
+      }
+    };
+  </script>
+</body>
+
+</html>
